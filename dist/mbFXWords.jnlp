@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="mbFXWords.jnlp">
+  <information>
+    <title>mbFXWords</title>
+    <vendor>PC</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="lib/opennlp-brat-annotator-1.8.4.jar" size="13763" download="eager" />
+    <jar href="lib/opennlp-morfologik-addon-1.8.4.jar" size="25740" download="eager" />
+    <jar href="lib/opennlp-tools-1.8.4.jar" size="1229958" download="eager" />
+    <jar href="lib/opennlp-uima-1.8.4.jar" size="72676" download="eager" />
+    <jar href="mbFXWords.jar" size="22986" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="mbFXWords" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="mbfxwords.MbFXWords"  name="mbFXWords" />
+  <update check="always"/>
+</jnlp>

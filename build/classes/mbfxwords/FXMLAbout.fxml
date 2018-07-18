@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="95.0" prefWidth="452.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbfxwords.FXMLDocumentController">
+   <children>
+      <Hyperlink onAction="#handleLkSFmbFXWords" text="SourceForge hopin for mbFXWords 0.02" />
+      <Hyperlink layoutY="23.0" onAction="#handleLkAPOpenNLP" prefHeight="23.0" prefWidth="221.0" text="Apache OpenNLP 1.8.4" />
+      <Hyperlink layoutY="46.0" onAction="#handleLkIFChamestudio" prefHeight="48.0" prefWidth="294.0" text="Application Icon &quot;Icon set Google Suits&quot; by Chamestudio Pvt Ltd is licensed under" wrapText="true" />
+      <Hyperlink layoutX="294.0" layoutY="49.0" onAction="#handleLkCC3Unported" prefHeight="42.0" prefWidth="160.0" text="CC Attribution 3.0 Unported" wrapText="true" />
+   </children>
+</AnchorPane>
