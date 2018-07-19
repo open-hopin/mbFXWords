@@ -1,3 +1,4 @@
+This is a NetBeans project with Ant build script.
 To just execute mbFXWords without compiling:
 
 'dist' directory contains complete portable application.
