@@ -6,20 +6,32 @@
 package mbfxwords;
 
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import javafx.scene.control.Alert;
+import static mbfxwords.OccurrenceOfWords.sInput;
 import opennlp.tools.cmdline.langdetect.LanguageDetectorModelLoader;
+import opennlp.tools.cmdline.parser.ParserTool;
 //import opennlp.tools.cmdline.PerformanceMonitor;
 import opennlp.tools.cmdline.postag.POSModelLoader;
 import opennlp.tools.langdetect.Language;
 import opennlp.tools.langdetect.LanguageDetector;
 import opennlp.tools.langdetect.LanguageDetectorME;
 import opennlp.tools.langdetect.LanguageDetectorModel;
+import opennlp.tools.parser.Parse;
+import opennlp.tools.parser.Parser;
+import opennlp.tools.parser.ParserFactory;
+import opennlp.tools.parser.ParserModel;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSSample;
 import opennlp.tools.postag.POSTaggerME;
@@ -37,7 +49,10 @@ import opennlp.tools.util.PlainTextByLineStream;
  * @author MB
  */
 public class OpenNLP {
-    
+    /**
+     * Needed global for OpenNLP POS tagging.
+     */
+    static POSTaggerME tagger;
     /**
      * Accesses a word in sArray[][][~].
      */
@@ -53,7 +68,7 @@ public class OpenNLP {
     /**
      * String array with indices [sentences][word][WORD|TAG|WORD_TYPE].
      */
-    static String[][][] sArray; // = new String[1][][];//[sentences][word][WORD|TAG|WORD_TYPE]    
+    static String[][][] sArray; // = new String[1][][];//[sentence][word][WORD|TAG|WORD_TYPE]    
     
     /**
      * Accesses a subject in sSPO[][~].
@@ -94,9 +109,136 @@ public class OpenNLP {
      * Not used so far.
      */
     public static void main() {
-    //System.out.println("hello");
+        //todo
     }
+    /**
+     * For test purposes only.
+     * @param sTemp String to parse
+     * @throws InvalidFormatException
+     * @throws IOException 
+     */
+    public static void Parse(String sTemp) throws InvalidFormatException, IOException {
+	InputStream is = new FileInputStream("en-parser-chunking.bin");
+ 
+	ParserModel model = new ParserModel(is);
+ 
+	Parser parser = ParserFactory.create(model);
+ 
+	String sentence = sTemp;
+	Parse topParses[] = ParserTool.parseLine(sentence, parser, 1);
+ 
+	for (Parse p : topParses)
+		p.show();
+ 
+	is.close();
+ 
+	/*
+	 * (TOP (S (NP (NN Programcreek) ) (VP (VBZ is) (NP (DT a) (ADJP (RB
+	 * very) (JJ huge) (CC and) (JJ useful) ) ) ) (. website.) ) )
+	 */
+    }
+    /**
+     * Reads in file and stores UTF-8 content in
+     * String {@link OccurrenceOfWords#sInput}.
+     * @param file disk txt-file to be analyzed
+     * @throws FileNotFoundException to caller
+     * @throws IOException to caller
+     */
+    public static void ReadIn(String[] file) throws FileNotFoundException, IOException {
+        sInput = "";
+        if (file.length == 0) {
+            System.out.println("Usage: ReadIn targetfile");
+            System.exit(0);
+        }
+        /*
+        BufferedReader bufferedReader = null;
+        bufferedReader = new BufferedReader(new FileReader(file[0]));
+        */
+        Reader reader = new InputStreamReader(new FileInputStream(file[0]),"UTF-8");
+        BufferedReader bufferedReader = new BufferedReader(reader);
+        
+        String inputLine = null;
+        //String outputLine = null;
+        //String finalLine = null;
+        try {
+            while ((inputLine = bufferedReader.readLine()) != null) {
+                if (!"".equals(sInput)) sInput += "\n"; sInput += inputLine;
+                /*
+                outputLine = inputLine.toLowerCase();
+                String[] words = outputLine.split("[ \"\n\t\r.,;:!?(){}]");
+                */
+            }
+        }
+        catch (IOException error) {
+            System.out.println("Invalid File");  
+        }
+        finally {
+            bufferedReader.close();
+        }
     
+    }
+    /**
+     * Long sentences are checked for subclauses
+     * conected by conjunctions. These sentences
+     * are divided accordingly.
+     * @param sentences source to be further divided in more elements
+     * @param tagger by OpenNLP
+     * @return modified result sentences
+     */
+    public static String[] SentenceCorrectTooLong(String[] sentences, POSTaggerME tagger){
+        List<String> sentencesResult = new ArrayList<>();
+        int a=0;
+        for (String sentence:sentences){
+            String whitespaceTokenizerLine[] = WhitespaceTokenizer.INSTANCE
+                .tokenize(sentence);
+            String[] tags = tagger.tag(whitespaceTokenizerLine);
+
+            POSSample sample = new POSSample(whitespaceTokenizerLine, tags);
+
+            String[] Words = sample.getSentence();
+            if (Words.length>10) {
+                String[] Tags = sample.getTags();
+                String[] POS = new String[Tags.length];
+                String s = "";
+                int b=0;
+                int c=0;
+                Boolean b1=false;
+                Boolean b2=false;
+                Boolean b3=false;
+                for (String tag:Tags) {
+                    if ("eng".equals(sLanguage)) POS[b] = sPartOfSpeechEN(tag);
+                    else if ("deu".equals(sLanguage)) POS[b] = sPartOfSpeechDE(tag);
+                    else POS[b] = sPartOfSpeechFR(tag);
+                    if (POS[b]=="verb" && !b1) b1=true;
+                    if (POS[b]=="conjunction" && b1 && !b2) {
+                        b2=true;
+                        c=b;
+                    }
+                    if (POS[b]=="verb" && b1 && b2) b3=true;
+                    b++;
+                }
+                if (!b3) {
+                    sentencesResult.add(sentences[a]);
+                    a++;
+                }
+                else {
+                    s=Words[c]+"."+Words[c+1]; //assumed only one character is missing and not 2
+                    String[] sArrayTemp;
+                    sArrayTemp=sentences[a].split(Words[c-1]+".(?="+s+")");
+                    for (String part: sArrayTemp) {
+                        sentencesResult.add(part.trim());
+                    }
+                    a++;
+                }
+            }
+            else {
+                sentencesResult.add(sentences[a]);
+                a++;
+            }
+                
+        }
+        return sentencesResult.toArray(new String[sentencesResult.size()]);
+    }
     /**
      * Sentence detection invoked according to OpenNLP
      * and extended for own needs.
@@ -127,21 +269,34 @@ public class OpenNLP {
             System.out.println("[" + sentence + "]");
             if ("eng".equals(sLanguage))
                 //sentences2 = sentence.split(", | - |\n");
-                sentences2 = sentence.split(", | - |\n|(?=( whether ))|(?=( if ))");
+                //
+                //If three words are following, split at comma,
+                //hyphen and the words 'whether' or 'if',
+                //in any case split at '\n':
+                sentences2 = sentence.split(", "
+                        + "(?=\\S+\\s+\\S+\\s+\\S+)| - "
+                        + "(?=\\S+\\s+\\S+\\s+\\S+)|\n|"
+                        + "(?= whether \\S+\\s+\\S+\\s+\\S+)|"
+                        + "(?= if \\S+\\s+\\S+\\s+\\S+)");
             else
-                sentences2 = sentence.split(", | - |\n");
+                sentences2 = sentence.split(", (?=\\S+\\s+\\S+\\s+\\S+)| - "
+                        + "(?=\\S+\\s+\\S+\\s+\\S+)|\n");
             for (String s2 : sentences2) {
                 s2=s2.trim();
+                //Assure minimum length of a subclause to be 4 words:
                 if (!"".equals(s2)) {// s2 != "" doesn't do here,
-                    // for it's the same String "" every time
+                    // for it's the same immutable String "" every time
                     sentences3 = s2.split(" ");
-                    if (sentences3.length < 3 && !b) {
+                    if (sentences3.length < 4 && !b) {
                         sentences[a] = s2;
                         b= true;
                     } else if (b) {
                         sentences[a] = sentences[a] + ", " + s2;
                         //System.out.println(sentences[a]);
-                        b= false; a++;
+                        String sTemp[]=sentences[a].split(" ");
+                        if (sTemp.length >= 4) { 
+                            b=false; a++;
+                        }
                     } else {
                         sentences[a] = s2;
                         //System.out.println(sentences[a]);
@@ -283,6 +438,8 @@ public class OpenNLP {
     public static String sPartOfSpeechDE(String sEntry) {
         String sTemp = "";
         switch(sEntry){
+            case "$": sTemp="verb";break;
+            case "$.": sTemp="verb";break;
             case "ADJA": sTemp="adjective"; break;
             case "ADJD": sTemp="DEPrädikativumAdverb"; break;
             case "ADV": sTemp="adverb"; break;
@@ -369,7 +526,7 @@ public class OpenNLP {
             model = new POSModelLoader().load(new File("fr-pos-maxent.bin"));
         //System.out.println(model.toString());
         //PerformanceMonitor perfMon = new PerformanceMonitor(System.err, "sent");
-	POSTaggerME tagger = new POSTaggerME(model);
+	tagger = new POSTaggerME(model);
  
 	//String input = "Hi. How are you? This is Mike.";
         
@@ -387,7 +544,9 @@ public class OpenNLP {
         //perfMon.start();
 	                
         //String line;
-        sSentences = SentenceDetect();
+        String[] sTempSentence=null;
+        sTempSentence = SentenceDetect();
+        sSentences=SentenceCorrectTooLong(sTempSentence, tagger);
         int iAllSentences = sSentences.length;//counter of all sentences
         /*
         int iAllSentences = 0;//counter of all sentences
@@ -435,7 +594,7 @@ public class OpenNLP {
                 Character cTemp;
                 for (int a=0; a < Words[c].length()-1;a++) {
                     cTemp = Words[c].charAt(a);
-                    if (Character.isUpperCase(cTemp))
+                    if (Character.isUpperCase(cTemp) && a!=0) //beginning with uppercase is ok
                         isUpperCaseInWord = true;
                 }
                 if (!"".equals(Words[c]) && ".".equals(Words[c].substring(Words[c].length()-1))
@@ -455,7 +614,8 @@ public class OpenNLP {
             //perfMon.incrementCounter();
             //SPO-Normalform:
             System.out.println(sample.getSentence().length);
-            String sTemp="Subject";
+            CharSequence sTemp="Subject";
+            //Boolean bPronoun=false;
             //for ( String word : sample.getSentence() ) {
             sSPO[b][SUBJECT]="";
             sSPO[b][OBJECT]="";
@@ -464,11 +624,11 @@ public class OpenNLP {
             int a=0;
             for (String[] sIterator : sArray[b]){
                 if ("noun".equals(sIterator[WORD_TYPE])){
-                    if ("Subject".equals(sTemp)) {
+                    if ("Subject".contains(sTemp)) {
                         System.out.println("Subject: " + Words[a]);
                         sSPO[b][SUBJECT]=Words[a];
                     }
-                    if ("Object".equals(sTemp)) {
+                    if ("Object".contains(sTemp)) {
                         System.out.println("Object: " + Words[a]);
                         if ("".equals(sSPO[b][OBJECT]) &&
                             !"".equals(sSPO[b][PREDICATE])) sSPO[b][OBJECT]=Words[a];
@@ -485,10 +645,12 @@ public class OpenNLP {
                         sSPO[b][PREDICATE]=Words[a];
                     else if ("".equals(sSPO[b][OBJECT]) && "deu".equals(sLanguage) && "VVPP".equals(sIterator[TAG])) 
                         sSPO[b][PREDICATE]=Words[a];
+                    //sTemp="Object";
                 }
+                if (!"".equals(sSPO[b][PREDICATE])) sTemp="Object";
                 a++;//word counter
             }
-            //
+            //sTemp="";
             System.out.println();
             b++;//sentence counter
         }

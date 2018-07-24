@@ -8,11 +8,11 @@ package mbfxwords;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+//import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.Charset;
+//import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -60,76 +60,40 @@ public class OccurrenceOfWords {
      * Determines the sequential arrangement number
      * of every word and the number of occurences in the text
      * of every word.
-     * @param file disk txt-file to be analyzed
-     * @throws FileNotFoundException to caller
-     * @throws IOException to caller
      */
-    public static void main(String[] file) throws FileNotFoundException, IOException {
-        sInput = "";
-        if (file.length == 0) {
-            System.out.println("Usage: java WordCounter targetfile");
-            System.exit(0);
-        }
-        
-        /*
-        BufferedReader bufferedReader = null;
-        bufferedReader = new BufferedReader(new FileReader(file[0]));
-        */
-         
-        Reader reader = new InputStreamReader(new FileInputStream(file[0]),"UTF-8");
-        BufferedReader bufferedReader = new BufferedReader(reader);
-        
-        String inputLine = null;
-        String outputLine = null;
-        //String finalLine = null;
-        
+    public static void main() {
+        //for (int wordCounter = 0; wordCounter < words.length; wordCounter++) {
         map = new TreeMap<String, mapValue>();
-        
-        try {
-            int wordTotalCounter = 0;
-            while ((inputLine = bufferedReader.readLine()) != null) {
-                if (!"".equals(sInput)) sInput += "\n"; sInput += inputLine;
-                outputLine = inputLine.toLowerCase();
-                //finalLine = replaceUmlaute(outputLine);
-                String[] words = outputLine.split("[ \"\n\t\r.,;:!?(){}]");
-                for (int wordCounter = 0; wordCounter < words.length; wordCounter++) {
-                    mapValue value = new mapValue();
-                    String key = words[wordCounter];
-                    if (key.length() > 0) {
-                        wordTotalCounter++;
-                        value.sequence = wordTotalCounter;
-                        value.occurrences = 0;
-                        if (map.get(key) == null) {
-                            value.occurrences = 1;
-                            map.put(key, value);
-                        }
-                        else {
-                            value.occurrences = map.get(key).occurrences;
-                            value.sequence = map.get(key).sequence;
-                            value.occurrences++;
-                            map.put(key, value);
-                        }
+        int wordTotalCounter = 0;
+        for (String sentences[][] : OpenNLP.sArray) {
+            for (String words[] : sentences) {
+                mapValue value = new mapValue();
+                String key = words[OpenNLP.WORD].toLowerCase();
+                if (key.length() > 0) {
+                    wordTotalCounter++;
+                    value.sequence = wordTotalCounter;
+                    value.occurrences = 0;
+                    if (map.get(key) == null) {
+                        value.occurrences = 1;
+                        map.put(key, value);
+                    }
+                    else {
+                        value.occurrences = map.get(key).occurrences;
+                        value.sequence = map.get(key).sequence;
+                        value.occurrences++;
+                        map.put(key, value);
                     }
                 }
-                //wordTotalCounter = wordTotalCounter+words.length;            
-            }
-            //map = MapUtil.sortByValue(map,false);
-            Set<Map.Entry<String, mapValue>> entrySet = map.entrySet();
-            for (Map.Entry<String, mapValue> entry : entrySet) {
-                //A text file saved in UTF-8 is displayed
-                //correctly with German Umlaute in NB-console:
-                //System.out.printf(entry.getValue() + "\t" + entry.getKey() + "\n");
-                System.out.println(entry.getValue().sequence + "\t" +
-                        entry.getValue().occurrences + "\t" + entry.getKey());
             }
         }
-        catch (IOException error) {
-            System.out.println("Invalid File");  
-        }
-        finally {
-            bufferedReader.close();
-
-
+        //map = MapUtil.sortByValue(map,false);
+        Set<Map.Entry<String, mapValue>> entrySet = map.entrySet();
+        for (Map.Entry<String, mapValue> entry : entrySet) {
+            //A text file saved in UTF-8 is displayed
+            //correctly with German Umlaute in NB-console:
+            //System.out.printf(entry.getValue() + "\t" + entry.getKey() + "\n");
+            System.out.println(entry.getValue().sequence + "\t" +
+                    entry.getValue().occurrences + "\t" + entry.getKey());
         }
     }
 }

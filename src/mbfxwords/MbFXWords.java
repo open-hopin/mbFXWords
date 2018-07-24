@@ -8,14 +8,19 @@ package mbfxwords;
 //import java.io.File;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import javafx.application.Application;
 //import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.text.Text;
 //import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 //import javafx.scene.text.Text;
@@ -70,6 +75,11 @@ public class MbFXWords extends Application {
      */
     private static Parent rootAbout;
     /**
+     * Instanced controller object
+     * for main window.
+     */
+    public static FXMLDocumentController c;
+    /**
      * @return the Stage from FXMLAbout.fxml.
      */
     public Stage getStageAbout() {
@@ -97,7 +107,11 @@ public class MbFXWords extends Application {
         getStageAbout().getProperties().put("hostServices", this.getHostServices());
         
         gStage = stage;
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = loader.load();
+        c = loader.getController();
         
         Scene scene = new Scene(root);
         
@@ -127,14 +141,16 @@ public class MbFXWords extends Application {
     public static void main(String[] args) {
         launch(args);       
     }
-    
+    // @throws NoSuchMethodException grid reflection "getNumberOfRows"
+    // @throws IllegalAccessException grid reflection "getNumberOfRows"
+    // @throws InvocationTargetException grid reflection "getNumberOfRows"
     /**
      * Analyzes the text of a txt-file
      * in respect to subject, predicate and object
-     * and frequency of occurrence of words. 
+     * and frequency of occurrence of words.
      */
-    public static void Analyze(){
-        String[] file = new String[]{"Bitcoin.txt"};
+    public static void Analyze() {
+        String[] file = new String[]{"Trump family sold policy.txt"};
         String file2;
         
         if (f != null) {
@@ -143,8 +159,10 @@ public class MbFXWords extends Application {
         file2 = file[0];
         
         try {            
-            OccurrenceOfWords.main(file);
-            OpenNLP.POSTag(file2);            
+            //OpenNLP.Parse("Programcreek is a very huge and useful website.");
+            OpenNLP.ReadIn(file);
+            OpenNLP.POSTag(file2);  
+            OccurrenceOfWords.main();
         } catch (IOException e){
             System.err.println("Caught MbFXWords IOException: " + e.toString() + ". " + e.getStackTrace()[2].getClassName() + ": " + e.getStackTrace()[2].getLineNumber());
             System.err.println(Arrays.toString(e.getStackTrace()));

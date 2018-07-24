@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -10,9 +12,9 @@
    <content>
       <AnchorPane id="AnchorPane" fx:id="anchorpane">
           <children>
-              <Button fx:id="button" layoutX="1.0" layoutY="111.0" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="71.0" text="Clear" />
-              <Label fx:id="label" layoutX="12.0" layoutY="142.0" minHeight="16" minWidth="69" textFill="#67599a" />
-              <Label fx:id="label2" layoutX="12.0" layoutY="159.0" prefHeight="16.0" prefWidth="69.0" textFill="#c98a2a" />
+              <Button fx:id="button" layoutX="1.0" layoutY="111.0" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="87.0" text="Clear" />
+              <Label fx:id="label" layoutX="3.0" layoutY="50.0" minHeight="16" minWidth="69" prefHeight="16.0" prefWidth="87.0" textFill="#67599a" />
+              <Label fx:id="label2" layoutX="3.0" layoutY="66.0" prefHeight="16.0" prefWidth="82.0" textFill="#c98a2a" />
             <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="100" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="50">
                <content>
                   <GridPane fx:id="grid" alignment="TOP_RIGHT" layoutX="83.0" layoutY="16.0" prefHeight="407.0" prefWidth="481.0">
@@ -20,18 +22,50 @@
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
-                    </columnConstraints>
+                    </columnConstraints>                    
                   </GridPane>
                </content>
+               <tooltip>
+                  <Tooltip text="click on word to count" />
+               </tooltip>
             </ScrollPane>
-            <Button fx:id="BtAnalyze" layoutX="1.0" layoutY="212.0" mnemonicParsing="false" onAction="#handleBtAnalyzeAction" prefHeight="25.0" prefWidth="71.0" text="Analyse" />
-            <Button fx:id="BtChoose" layoutY="14.0" mnemonicParsing="false" onAction="#handleBtChooseAction" text="Choose txt" />
-            <Label layoutX="100.0" layoutY="14.0" prefHeight="35.0" prefWidth="95.0" text="number of words in sentence" wrapText="true" />
-            <Label layoutX="225.0" layoutY="14.0" prefHeight="25.0" prefWidth="56.0" text="subject" />
-            <Label layoutX="318.0" layoutY="14.0" prefHeight="25.0" prefWidth="72.0" text="predicate" />
-            <Label layoutX="419.0" layoutY="14.0" prefHeight="25.0" prefWidth="68.0" text="object" />
-            <Label layoutX="3.0" layoutY="269.0" prefHeight="79.0" prefWidth="68.0" text="click on word to count" wrapText="true" />
-            <Button fx:id="BtAbout" layoutX="1.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleBTAboutAction" prefHeight="56.0" prefWidth="73.0" text="About+Credits" wrapText="true" />              
+            <Button fx:id="BtAnalyze" layoutX="1.0" layoutY="141.0" mnemonicParsing="false" onAction="#handleBtAnalyzeAction" prefHeight="70.0" prefWidth="86.0" text="Analyse">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="fill table with chosen text" />
+               </tooltip>
+            </Button>
+            <Button fx:id="BtChoose" layoutY="14.0" mnemonicParsing="false" onAction="#handleBtChooseAction" text="Choose txt">
+                <tooltip>
+                  <Tooltip text="select your text file to be analyzed" />
+                </tooltip>
+            </Button>
+            <Label fx:id="lblWords" layoutX="100.0" layoutY="9.0" prefHeight="35.0" prefWidth="51.0" text="words" wrapText="true">
+                <tooltip>
+                  <Tooltip text="number of words in sentence" />
+                </tooltip>
+            </Label>
+            <Label layoutX="192.0" layoutY="14.0" prefHeight="25.0" prefWidth="56.0" text="subject" />
+            <Label layoutX="296.0" layoutY="14.0" prefHeight="25.0" prefWidth="72.0" text="predicate" />
+            <Label layoutX="404.0" layoutY="14.0" prefHeight="25.0" prefWidth="68.0" text="object" />
+            <Label layoutX="4.0" layoutY="237.0" prefHeight="45.0" prefWidth="88.0" text="click on word to count" wrapText="true" />
+            <Button fx:id="BtAbout" layoutX="1.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleBTAboutAction" prefHeight="56.0" prefWidth="70.0" text="About+Credits" wrapText="true">
+                <tooltip>
+                  <Tooltip text="all resources used" />
+                </tooltip>
+            </Button>
+            <Label layoutX="502.0" layoutY="19.0" text="sentence">
+                <tooltip>
+                  <Tooltip text="click on button to to give out complete sentence" />
+                </tooltip>
+            </Label>
+            <Label fx:id="lblPopulated" layoutX="4.0" layoutY="282.0" prefHeight="56.0" prefWidth="85.0" text="populated 0%" wrapText="true">
+                <tooltip>
+                  <Tooltip text="percentage of non empty subject, predicate, object fields" />
+               </tooltip>
+            </Label>                 
           </children>
       </AnchorPane>
    </content>

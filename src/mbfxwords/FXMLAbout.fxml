@@ -7,12 +7,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="95.0" prefWidth="452.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbfxwords.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="194.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbfxwords.FXMLDocumentController">
    <children>
-      <Hyperlink onAction="#handleLkSFmbFXWords" text="SourceForge hopin for mbFXWords 0.02" />
-      <Hyperlink layoutY="23.0" onAction="#handleLkAPOpenNLP" prefHeight="23.0" prefWidth="221.0" text="Apache OpenNLP 1.8.4" />
-      <Hyperlink layoutY="46.0" onAction="#handleLkIFChamestudio" prefHeight="48.0" prefWidth="294.0" text="Application Icon &quot;Icon set Google Suits&quot; by Chamestudio Pvt Ltd is licensed under" wrapText="true" />
-      <Hyperlink layoutX="294.0" layoutY="49.0" onAction="#handleLkCC3Unported" prefHeight="42.0" prefWidth="160.0" text="CC Attribution 3.0 Unported" wrapText="true" />
+      <Hyperlink onAction="#handleLkSFmbFXWords" prefHeight="42.0" prefWidth="275.0" text="SourceForge mbFXWords 0.03 licensed under" wrapText="true" />
+      <Hyperlink layoutY="42.0" onAction="#handleLkAPOpenNLP" prefHeight="23.0" prefWidth="275.0" text="Apache OpenNLP 1.8.4 licensed under" />
+      <Hyperlink layoutY="75.0" onAction="#handleLkIFChamestudio" prefHeight="48.0" prefWidth="294.0" text="Application Icon &quot;Icon set Google Suits&quot; by Chamestudio Pvt Ltd is licensed under" wrapText="true" />
+      <Hyperlink layoutX="294.0" layoutY="78.0" onAction="#handleLkCC3Unported" prefHeight="42.0" prefWidth="160.0" text="CC Attribution 3.0 Unported" wrapText="true" />
+      <Hyperlink layoutX="3.0" layoutY="126.0" onAction="#handleLkGHStanbolLauncher" prefHeight="62.0" prefWidth="288.0" text="GitHub A custom Apache Stanbol Launcher for the Fusepool Plattform French OpenNLP models licensed under" wrapText="true" />
+      <Hyperlink layoutX="294.0" layoutY="126.0" onAction="#handleLkAP2" text="Apache License 2.0" />
+      <Hyperlink layoutX="294.0" layoutY="42.0" onAction="#handleLkAP2" text="Apache License 2.0" />
+      <Hyperlink layoutX="294.0" onAction="#handleLkGNUGPL3" prefHeight="42.0" prefWidth="160.0" text="GNU GENERAL PUBLIC LICENSE 3" wrapText="true" />
    </children>
    <effect>
       <Reflection />

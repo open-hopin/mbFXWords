@@ -7,6 +7,8 @@ package mbfxwords;
 
 //import java.awt.Desktop;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 //import java.io.IOException;
 //import java.net.URI;
 //import java.net.URISyntaxException;
@@ -15,6 +17,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.application.HostServices;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 //import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -29,9 +32,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+//import static mbfxwords.MbFXWords.c;
 //import javafx.stage.Stage;
 //import opennlp.tools.util.InvalidFormatException;
 //import mbfxwords.OpenNLP;
@@ -41,7 +46,11 @@ import javafx.stage.Stage;
  * @author MB
  */
 public class FXMLDocumentController implements Initializable {
-    
+    /**
+     * Label for population percentage of table.
+     */
+    @FXML
+    public Label lblPopulated;
     /**
      * Label for Hello World.
      */
@@ -75,7 +84,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleLkSFmbFXWords(ActionEvent event) {
         HostServices hostServices = (HostServices)MbFXWords.stageAbout.getProperties().get("hostServices");
-        hostServices.showDocument("https://sourceforge.net/projects/hopin/");
+        hostServices.showDocument("https://sourceforge.net/projects/mbfxwords/");
         /*
         String url = "http://google.com";
         if (Desktop.isDesktopSupported()) { // for windows
@@ -119,6 +128,33 @@ public class FXMLDocumentController implements Initializable {
      * @param event ActionEvent
      */
     @FXML
+    private void handleLkGHStanbolLauncher(ActionEvent event) {
+        HostServices hostServices = (HostServices)MbFXWords.stageAbout.getProperties().get("hostServices");
+        hostServices.showDocument("https://github.com/fusepoolP3/p3-stanbol-launcher/tree/master/data/opennlp-pos/src/main/resources/models");
+    }
+    /**
+     * ActionEvent of Link.
+     * @param event ActionEvent
+     */
+    @FXML
+    private void handleLkGNUGPL3(ActionEvent event) {
+        HostServices hostServices = (HostServices)MbFXWords.stageAbout.getProperties().get("hostServices");
+        hostServices.showDocument("https://www.gnu.org/licenses/gpl-3.0.en.html");
+    }
+    /**
+     * ActionEvent of Link.
+     * @param event ActionEvent
+     */
+    @FXML
+    private void handleLkAP2(ActionEvent event) {
+        HostServices hostServices = (HostServices)MbFXWords.stageAbout.getProperties().get("hostServices");
+        hostServices.showDocument("https://www.apache.org/licenses/LICENSE-2.0");
+    }
+    /**
+     * ActionEvent of Link.
+     * @param event ActionEvent
+     */
+    @FXML
     private void handleLkCC3Unported(ActionEvent event) {
         HostServices hostServices = (HostServices)MbFXWords.stageAbout.getProperties().get("hostServices");
         hostServices.showDocument("https://creativecommons.org/licenses/by/3.0/");
@@ -147,6 +183,7 @@ public class FXMLDocumentController implements Initializable {
         }*/
         
         grid.getChildren().clear();
+        lblPopulated.setText("populated 0%");
     }
     /**
      * ActionEvent of Button with fx:id="BtAnalyse".
@@ -157,8 +194,18 @@ public class FXMLDocumentController implements Initializable {
         //System.out.println("You clicked analyze!");
         grid.getChildren().clear();
         mbfxwords.MbFXWords.Analyze();
-                
+        /*
+        Text tWords = new Text("words");
+        tWords.setStyle("-fx-font-weight: bold;");
+        */
         if (OpenNLP.sArray[0] != null) {
+            /*
+            grid.addRow(0, new Text("words"),
+                            new Text("subject"),
+                            new Text("predicate"),
+                            new Text("object"),
+                            new Text("sentence"));
+            */
             for (int a = 0; a<mbfxwords.OpenNLP.sArray.length;a++) {
                 Button bButton = new Button(String.valueOf(a+1));
                 grid.addRow(a, new Text(String.valueOf(mbfxwords.OpenNLP.sArray[a].length)),
@@ -184,14 +231,37 @@ public class FXMLDocumentController implements Initializable {
                     alert.setTitle("Message of mbFXWords");
                     alert.setHeaderText("The underlying sentence is:");
                     //alert.setContentText(mbfxwords.OpenNLP.sArray[Integer.valueOf(sTempA)-1][0][mbfxwords.OpenNLP.WORD]);
-                    alert.setContentText(sTempC);
+                    
+                    Text text = new Text(sTempC);
+                    text.setWrappingWidth(250);
+                    alert.getDialogPane().setContent(text);
+                    
+                    //alert.setContentText(sTempC);
                     Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
                     stage.getIcons().add(new Image("file:FlatXoreo.png"));
                     alert.showAndWait();
                 });
             }
             addGridEvent();
-        }
+            
+            int counter=0;
+            Integer rows=0;
+            ObservableList<Node> observableList = grid.getChildren();
+            for (Node n:observableList) {
+                if (n instanceof Text) {
+                    if (""!=((Text) n).getText()) counter++;
+                }
+            }
+            try {
+                Method method = grid.getClass().getDeclaredMethod("getNumberOfRows");
+                method.setAccessible(true);
+                rows = (Integer) method.invoke(grid);
+            }
+            catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                e.toString();
+            }
+            lblPopulated.setText("populated " + String.format("%.0f",((float)(counter-rows)/(rows*3))*100) + "%");
+            }
     }
     
     /**

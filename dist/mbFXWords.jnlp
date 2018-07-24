@@ -12,7 +12,7 @@
     <jar href="lib/opennlp-morfologik-addon-1.8.4.jar" size="25740" download="eager" />
     <jar href="lib/opennlp-tools-1.8.4.jar" size="1229958" download="eager" />
     <jar href="lib/opennlp-uima-1.8.4.jar" size="72676" download="eager" />
-    <jar href="mbFXWords.jar" size="22986" download="eager" />
+    <jar href="mbFXWords.jar" size="25957" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="mbFXWords" >
     <param name="requiredFXVersion" value="8.0+"/>
