@@ -1,0 +1,29 @@
+=Open sources used for his application as included=:
+
+Apache OpenNLP 1.8.4 licensed under Apache License 2.0.
+https://opennlp.apache.org/
+https://www.apache.org/licenses/LICENSE-2.0
+
+Application Icon "Icon set Google Suits" by Chamestudio Pvt Ltd licensed under CC Attribution 3.0 Unported.
+https://www.iconfinder.com/icons/2109139/data_gallery_google_image_photo_picture_services_icon
+https://creativecommons.org/licenses/by/3.0/
+
+GitHub A custom Apache Stanbol Launcher for the Fusepool Plattform French OpenNLP models licensed under Apache License 2.0.
+https://github.com/fusepoolP3/p3-stanbol-launcher/tree/master/data/opennlp-pos/src/main/resources/models
+https://www.apache.org/licenses/LICENSE-2.0
+
+Wikipedia, the free encyclopedia, EN, Coffea arabica licensed under CC Attribution-ShareAlike 3.0 Unported.
+https://en.wikipedia.org/wiki/Coffea_arabica
+https://creativecommons.org/licenses/by-sa/3.0/deed.en
+
+Wikipédia, l'encyclopédie libre, FR, Coffea arabica licensed under CC Attribution-ShareAlike 3.0 Unported.
+https://fr.wikipedia.org/wiki/Coffea_arabica
+https://creativecommons.org/licenses/by-sa/3.0/deed.en
+
+Wikipedia, die freie Enzyklopädie, DE, Arabica-Kaffee licensed under CC Attribution-ShareAlike 3.0 Unported.
+https://de.wikipedia.org/wiki/Arabica-Kaffee
+https://creativecommons.org/licenses/by-sa/3.0/deed.en
+
+Apache PDFBox 2.0.11 licensed under Apache License 2.0.
+https://pdfbox.apache.org/
+https://www.apache.org/licenses/LICENSE-2.0
