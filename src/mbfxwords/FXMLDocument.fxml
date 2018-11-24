@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.paint.*?>
 <?import java.lang.*?>
@@ -8,20 +9,43 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane fx:id="SpMain" fitToHeight="true" fitToWidth="true" prefHeight="475.0" prefWidth="575.0" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="100" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="50" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbfxwords.FXMLDocumentController">
+<ScrollPane fx:id="SpMain" fitToHeight="true" fitToWidth="true" prefHeight="530.0" prefWidth="654.0" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="100" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="50" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbfxwords.FXMLDocumentController">
    <content>
-      <AnchorPane id="AnchorPane" fx:id="anchorpane">
+      <AnchorPane id="AnchorPane" fx:id="anchorpane" prefHeight="528.0" prefWidth="588.0">
           <children>
-              <Button fx:id="button" layoutX="1.0" layoutY="111.0" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="87.0" text="Clear" />
-              <Label fx:id="label" layoutX="3.0" layoutY="50.0" minHeight="16" minWidth="69" prefHeight="16.0" prefWidth="87.0" textFill="#67599a" />
-              <Label fx:id="label2" layoutX="3.0" layoutY="66.0" prefHeight="16.0" prefWidth="82.0" textFill="#c98a2a" />
-            <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="100" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="50">
+              <Button fx:id="BtClear" layoutX="-1.0" layoutY="125.0" onAction="#handleBtClearAction" prefHeight="25.0" prefWidth="130.0" text="Clear">
+                  <tooltip> 
+                    <Tooltip text="clear the table" />
+                  </tooltip>
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font>
+              </Button>
+              <Label fx:id="lblCaptionStems" layoutX="3.0" layoutY="42.0" minHeight="16" minWidth="69" prefHeight="56.0" prefWidth="130.0" text="number of different: stems (words) effectives" wrapText="true">
+                  <tooltip> 
+                    <Tooltip text="stemming statistics" />
+                  </tooltip>
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font>
+              </Label>
+              <Label fx:id="lblStems" layoutX="3.0" layoutY="98.0" prefHeight="27.0" prefWidth="130.0" text="0(0)0">
+                  <tooltip> 
+                    <Tooltip text="stemming statistics" />
+                  </tooltip>
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font>
+              </Label>
+            <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" layoutX="145.0" layoutY="74.0" prefHeight="389.0" prefWidth="498.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="74.0">
                <content>
-                  <GridPane fx:id="grid" alignment="TOP_RIGHT" layoutX="83.0" layoutY="16.0" prefHeight="407.0" prefWidth="481.0">
+                  <GridPane fx:id="grid" alignment="TOP_RIGHT" layoutX="83.0" layoutY="16.0" prefHeight="412.0" prefWidth="562.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="20.0" />
                     </columnConstraints>                    
                   </GridPane>
                </content>
@@ -29,43 +53,106 @@
                   <Tooltip text="click on word to count" />
                </tooltip>
             </ScrollPane>
-            <Button fx:id="BtAnalyze" layoutX="1.0" layoutY="141.0" mnemonicParsing="false" onAction="#handleBtAnalyzeAction" prefHeight="70.0" prefWidth="86.0" text="Analyse">
+            <Button fx:id="BtAnalyze" layoutX="-1.0" layoutY="155.0" mnemonicParsing="false" onAction="#handleBtAnalyzeAction" prefHeight="70.0" prefWidth="130.0" text="Analyze" wrapText="true">
                <font>
-                  <Font name="System Bold" size="13.0" />
+                  <Font name="SansSerif Bold" size="12.0" />
                </font>
                <tooltip>
                   <Tooltip text="fill table with chosen text" />
                </tooltip>
             </Button>
-            <Button fx:id="BtChoose" layoutY="14.0" mnemonicParsing="false" onAction="#handleBtChooseAction" text="Choose txt">
+            <Button fx:id="BtChoose" mnemonicParsing="false" onAction="#handleBtChooseAction" prefHeight="39.0" prefWidth="130.0" text="Choose pdf/txt">
                 <tooltip>
                   <Tooltip text="select your text file to be analyzed" />
                 </tooltip>
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font>
             </Button>
-            <Label fx:id="lblWords" layoutX="100.0" layoutY="9.0" prefHeight="35.0" prefWidth="51.0" text="words" wrapText="true">
+            <Label fx:id="lblWordsStatic" layoutX="159.0" layoutY="48.0" prefHeight="22.0" prefWidth="64.0" text="words" wrapText="true">
                 <tooltip>
                   <Tooltip text="number of words in sentence" />
                 </tooltip>
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font>
             </Label>
-            <Label layoutX="192.0" layoutY="14.0" prefHeight="25.0" prefWidth="56.0" text="subject" />
-            <Label layoutX="296.0" layoutY="14.0" prefHeight="25.0" prefWidth="72.0" text="predicate" />
-            <Label layoutX="404.0" layoutY="14.0" prefHeight="25.0" prefWidth="68.0" text="object" />
-            <Label layoutX="4.0" layoutY="237.0" prefHeight="45.0" prefWidth="88.0" text="click on word to count" wrapText="true" />
-            <Button fx:id="BtAbout" layoutX="1.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleBTAboutAction" prefHeight="56.0" prefWidth="70.0" text="About+Credits" wrapText="true">
+            <Label layoutX="249.0" layoutY="47.0" prefHeight="25.0" prefWidth="78.0" text="subject">
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font></Label>
+            <Label layoutX="335.0" layoutY="47.0" prefHeight="25.0" prefWidth="89.0" text="predicate">
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font></Label>
+            <Label layoutX="444.0" layoutY="47.0" prefHeight="25.0" prefWidth="68.0" text="object">
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblSentencesCount" layoutX="2.0" layoutY="225.0" prefHeight="35.0" prefWidth="130.0" text="clauses 0" wrapText="true">
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font></Label>
+            <Button fx:id="BtAbout" layoutY="422.0" mnemonicParsing="false" onAction="#handleBTAboutAction" prefHeight="53.0" prefWidth="130.0" text="About + Credits" textAlignment="CENTER" wrapText="true">
                 <tooltip>
                   <Tooltip text="all resources used" />
                 </tooltip>
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font>
             </Button>
-            <Label layoutX="502.0" layoutY="19.0" text="sentence">
+            <Label layoutX="520.0" layoutY="48.0" prefHeight="22.0" prefWidth="76.0" text="sentence">
                 <tooltip>
                   <Tooltip text="click on button to to give out complete sentence" />
                 </tooltip>
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font>
             </Label>
-            <Label fx:id="lblPopulated" layoutX="4.0" layoutY="282.0" prefHeight="56.0" prefWidth="85.0" text="populated 0%" wrapText="true">
+            <Label fx:id="lblPopulated" layoutX="2.0" layoutY="251.0" prefHeight="33.0" prefWidth="130.0" text="populated 0%" wrapText="true">
                 <tooltip>
                   <Tooltip text="percentage of non empty subject, predicate, object fields" />
                </tooltip>
-            </Label>                 
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="BtSearch" layoutY="310.0" mnemonicParsing="false" onAction="#handleBtSearchAction" prefHeight="56.0" prefWidth="131.0" text="Search for similar" textAlignment="CENTER" wrapText="true"> 
+               <tooltip>
+                  <Tooltip text="Bing search for similar pdf content" />
+               </tooltip>
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btSettings" layoutX="-1.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleBtSettings" prefHeight="43.0" prefWidth="132.0" text="Settings">
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font>
+            </Button>
+            <Rectangle fx:id="rctAbstract" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="45.0" layoutX="145.0" layoutY="1.0" stroke="#0000003f" strokeType="INSIDE" width="451.0" />
+            <Label fx:id="lblAbstract" layoutX="145.0" layoutY="2.0" prefHeight="44.0" prefWidth="450.0" text=" abstract" wrapText="true">
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font></Label>
+            <Button fx:id="btCopyAbstract" layoutX="599.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleBtCopyAbstract" prefHeight="44.0" prefWidth="44.0" text="C2C" textOverrun="CLIP">
+               <tooltip>
+                  <Tooltip text="copy abstract to clipboard" />
+               </tooltip>
+                <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font>
+            </Button>
+            <Rectangle fx:id="rctWords" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="31.0" layoutX="1.0" layoutY="492.0" stroke="#00000040" strokeType="INSIDE" width="540.0" />
+            <ProgressBar fx:id="pbMain" layoutY="480.0" prefHeight="32.0" prefWidth="540.0" progress="0.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="113.0" />
+            <Label fx:id="lblWords" layoutX="6.0" layoutY="494.0" prefHeight="31.0" prefWidth="529.0" text="most common words" />              
+            <Spinner fx:id="spPages" initialValue="0" max="0" min="0" prefHeight="30.0" prefWidth="100.0" AnchorPane.bottomAnchor="5" AnchorPane.rightAnchor="10">
+                <editable>true</editable>
+                <styleClass>
+                    <String fx:value="arrows-on-right-horizontal" />
+                </styleClass>
+            </Spinner>
+            <Button fx:id="btHelp" layoutX="599.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleBtHelp" prefHeight="25.0" prefWidth="44.0" text="?" />            
           </children>
       </AnchorPane>
    </content>

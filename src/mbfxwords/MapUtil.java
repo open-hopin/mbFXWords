@@ -10,6 +10,7 @@ import java.util.*;
 /**
  * Provides a collection of key value pairs and makes
  * possible to sort according to ascending or descending values.
+ * Not used so far.
  * @author MB
  */
 public class MapUtil {

@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Implementation-Title: mbFXWords
+X-COMMENT: Main-Class will be added automatically by build
+Implementation-Version: 1.0
+Permissions: sandbox
+Codebase: *
+JavaFX-Version: 8.0
+Class-Path: lib/opennlp-brat-annotator-1.8.4.jar lib/opennlp-morfologi
+ k-addon-1.8.4.jar lib/opennlp-tools-1.8.4.jar lib/opennlp-uima-1.8.4.
+ jar lib/pdfbox-app-2.0.11.jar
+Created-By: JavaFX Packager
+Implementation-Vendor: PC
+Main-Class: mbfxwords.MbFXWords
+
