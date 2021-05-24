@@ -11,6 +11,6 @@ NLP extensions:
 - Divide sentences in subclauses: segmentation.
 - Divide plain text: subject, predicate, object.
 - Count words: stemming.
-- Search for similar content: pdf's.
+- Search for similar content: PDF's.
 
 Also on: <a href="https://sourceforge.net/projects/mbfxwords/" target="_blank">https://sourceforge.net/projects/mbfxwords/</a>
